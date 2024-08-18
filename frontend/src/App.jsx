@@ -1,45 +1,23 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import { useState } from "react";
-import RefreshHandler from "./RefreshHandler";
-import Error from './pages/Error';
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ErrorPage from "./pages/ErrorPage";
+import AddBookmarkPage from "./pages/AddBookmarkPage";
+import EditBookmarkPage from "./pages/EditBookmarkPage";
+import Navbar from "./components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const PrivateRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to={"/login"} />;
-  };
-
   return (
-    <>
-      <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
+    <div className="app overflow-hidden">
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Navigate to={"/login"} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
-        <Route path="*" element={<Error/>} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/addBookmark" element={<AddBookmarkPage />} />
+        <Route path="/editBookmark/:id" element={<EditBookmarkPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition:Bounce
-      />
-    </>
+      <Toaster/>
+    </div>
   );
 };
 
